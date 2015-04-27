@@ -26,11 +26,30 @@ if (!hasProperty('mainClass')) {
 }
 
 dependencies {
-    // TODO: Add dependencies here
-    //   but note that JUnit should have already been added in parent.gradle.
-    //   By default, only the Maven Central Repository is specified in
-    //   parent.gradle.
-    //
-    // You can read more about how to add dependency here:
-    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
+    def cargoVersion = '1.4.5'
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+          "org.codehaus.cargo:cargo-ant:$cargoVersion"
 }
+
+cargo {
+    containerId = 'tomcat7x'
+//    port = 8080
+
+    deployable {
+        context = 'frontend'
+    }
+
+    local {
+        homeDir = file("$projectDir/build/extract/apache-tomcat-7.0.61/apache-tomcat-7.0.61")
+        outputFile = file('build/output.log')
+        timeout = 60000
+
+        installer {
+            installUrl = 'http://mirror.tcpdiag.net/apache/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.zip'
+            downloadDir = file("$projectDir/build/download")
+            extractDir = file("$projectDir/build/extract")
+        }
+    }
+}
+
+cargoRunLocal.dependsOn war
