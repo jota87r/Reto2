@@ -5,6 +5,12 @@
  */
 package com.j.backend;
 
+import com.j.backend.dto.Message;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,6 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class DemoController {
- 
+
+  @RequestMapping(value = "/messages", method = RequestMethod.PUT)
+  public void putMessage(@RequestBody Message message) {
     
+  }
+  
+  @RequestMapping(value = "/messages", method = RequestMethod.GET)
+  @ResponseBody
+  public Message getMessage(@RequestParam("queue") String queue) {
+    return new Message("dummyQ", "dummyMessage");
+  }
 }

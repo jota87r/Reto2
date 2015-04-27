@@ -40,14 +40,14 @@ cargo {
     }
 
     local {
-        homeDir = file("$projectDir/build/extract/apache-tomcat-7.0.61/apache-tomcat-7.0.61")
+//        homeDir = file("$projectDir/build/extract/apache-tomcat-7.0.61/apache-tomcat-7.0.61")
         outputFile = file('build/output.log')
         timeout = 60000
 
         installer {
             installUrl = 'http://mirror.tcpdiag.net/apache/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.zip'
-            downloadDir = file("$projectDir/build/download")
-            extractDir = file("$projectDir/build/extract")
+            downloadDir = file("$rootProject.projectDir/build/download")
+            extractDir = file("$rootProject.projectDir/build/extract")
         }
     }
 }

@@ -2,3 +2,5 @@
 /frontend/build/
 .gradle
 /src
+/backend/build/
+/build/

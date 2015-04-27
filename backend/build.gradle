@@ -9,11 +9,26 @@
 // Note however, that you may define your own "run" and "debug" task if you
 // prefer. In this case NetBeans will not add these tasks but you may rely on
 // your own implementation.
+apply plugin: 'war'
+apply plugin: 'com.bmuschko.cargo'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.1'
+    }
+}
+
 if (!hasProperty('mainClass')) {
     ext.mainClass = ''
 }
 
 dependencies {
+    def cargoVersion = '1.4.5'
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
+          "org.codehaus.cargo:cargo-ant:$cargoVersion"
     compile 'org.springframework:spring-core:4.0.6.RELEASE'
     compile 'org.springframework:spring-web:4.0.6.RELEASE'
     compile 'org.springframework:spring-webmvc:4.0.6.RELEASE'
@@ -21,4 +36,29 @@ dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'javax.servlet.jsp.jstl:jstl-api:1.2'
     compile 'javax.servlet.jsp:javax.servlet.jsp-api:2.3.1'
+    compile 'org.projectlombok:lombok:1.16.4'
 }
+
+
+cargo {
+    containerId = 'tomcat7x'
+    port = 8080
+
+    deployable {
+        context = 'backend'
+    }
+
+    local {
+//        homeDir = file("$projectDir/build/extract/apache-tomcat-7.0.61/apache-tomcat-7.0.61")
+        outputFile = file('build/output.log')
+        timeout = 60000
+
+        installer {
+            installUrl = 'http://mirror.tcpdiag.net/apache/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.zip'
+            downloadDir = file("$rootProject.projectDir/build/download")
+            extractDir = file("$rootProject.projectDir/build/extract")
+        }
+    }
+}
+
+cargoRunLocal.dependsOn war
