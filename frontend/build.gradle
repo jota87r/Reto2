@@ -9,6 +9,18 @@
 // Note however, that you may define your own "run" and "debug" task if you
 // prefer. In this case NetBeans will not add these tasks but you may rely on
 // your own implementation.
+apply plugin: 'war'
+apply plugin: 'com.bmuschko.cargo'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.1'
+    }
+}
+
 if (!hasProperty('mainClass')) {
     ext.mainClass = ''
 }
