@@ -1,3 +1,4 @@
 /.nb-gradle
 /frontend/build/
 .gradle
+/src
