@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.j.backend;
+package com.j.backend.controller;
 
-import com.j.backend.dto.Message;
+import com.j.backend.domain.Message;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,4 +30,9 @@ public class DemoController {
   public Message getMessage(@RequestParam("queue") String queue) {
     return new Message("dummyQ", "dummyMessage");
   }
+  
+//  @RequestMapping("/messages")
+//  public Message getMessage() {
+//    return new Message("dummyQ", "dummyMessage");
+//  }
 }

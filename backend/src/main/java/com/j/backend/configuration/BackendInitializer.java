@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.j.backend;
+package com.j.backend.configuration;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,7 +16,8 @@ import org.springframework.web.servlet.DispatcherServlet;
  *
  * @author jonatan
  */
-public class BackendInitializer implements WebApplicationInitializer {
+public class BackendInitializer 
+implements WebApplicationInitializer {
   
   @Override
   public void onStartup(ServletContext container) throws ServletException {
