@@ -45,6 +45,8 @@ dependencies {
     compile "javax.servlet.jsp.jstl:jstl-api:$jstlVersion"
     compile "javax.servlet.jsp:javax.servlet.jsp-api:$jspVersion"
     compile "org.projectlombok:lombok:$lombokVersion"
+    
+    compile project(':mom_client')
 }
 
 cargo {
