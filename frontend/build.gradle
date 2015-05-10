@@ -27,8 +27,24 @@ if (!hasProperty('mainClass')) {
 
 dependencies {
     def cargoVersion = '1.4.5'
+    def springVersion = '4.0.6.RELEASE'
+    def jacksonVersion = '1.9.13'
+    def servletVersion = '3.1.0'
+    def jspVersion = '2.3.1'
+    def jstlVersion = '1.2'
+    def lombokVersion = '+'
+    
     cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
           "org.codehaus.cargo:cargo-ant:$cargoVersion"
+  
+    compile "org.springframework:spring-core:$springVersion"
+    compile "org.springframework:spring-web:$springVersion"
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.codehaus.jackson:jackson-mapper-asl:$jacksonVersion"
+    compile "javax.servlet:javax.servlet-api:$servletVersion"
+    compile "javax.servlet.jsp.jstl:jstl-api:$jstlVersion"
+    compile "javax.servlet.jsp:javax.servlet.jsp-api:$jspVersion"
+    compile "org.projectlombok:lombok:$lombokVersion"
 }
 
 cargo {
@@ -41,7 +57,7 @@ cargo {
 
     local {
 //        homeDir = file("$projectDir/build/extract/apache-tomcat-7.0.61/apache-tomcat-7.0.61")
-        outputFile = file('build/output.log')
+        outputFile = file("$rootProject.projectDir/output.log")
         timeout = 60000
 
         installer {
