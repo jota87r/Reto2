@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,8 @@ public class DemoController {
   
   @RequestMapping(value = "/topics", method = RequestMethod.GET)
   @ResponseBody
-  public Collection<String> getTopics() {
+  public Collection<String> getTopics(HttpServletResponse response) {
+    response.setHeader("Access-Control-Allow-Origin", "*");
     return Topics.instance().getTopics();
   }
   

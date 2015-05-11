@@ -5,7 +5,11 @@
  */
 package com.j.backend.configuration;
 
+import com.j.backend.components.SimpleCORSFilter;
 import com.j.mom.MomInitializer;
+import java.util.EnumSet;
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -28,6 +32,9 @@ public class BackendInitializer implements WebApplicationInitializer {
     ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(context));
     servlet.setLoadOnStartup(1);
     servlet.addMapping("/");
+    
+    FilterRegistration.Dynamic filter = container.addFilter("SimpleCORSFilter", new SimpleCORSFilter());
+    filter.addMappingForServletNames(EnumSet.of(DispatcherType.REQUEST), true, "/*");
     
     startMomClient();
   }
