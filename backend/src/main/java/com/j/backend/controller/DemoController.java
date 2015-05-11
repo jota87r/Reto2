@@ -6,6 +6,12 @@
 package com.j.backend.controller;
 
 import com.j.backend.domain.Message;
+import com.j.mom.Topics;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,11 +31,34 @@ public class DemoController {
     
   }
   
-  @RequestMapping(value = "/messages", method = RequestMethod.GET)
+  @RequestMapping(value = "/topics", method = RequestMethod.GET)
   @ResponseBody
-  public Message getMessage(@RequestParam("queue") String queue) {
-    return new Message("dummyQ", "dummyMessage");
+  public Collection<String> getTopics() {
+    return Topics.instance().getTopics();
   }
+  
+  @RequestMapping(value = "/topics/{topic}/messages/head", method = RequestMethod.GET)
+  @ResponseBody
+  public Message getMessage(@PathVariable("topic") String topic) {
+    ConcurrentLinkedQueue<String> messages = Topics.instance().getMessages(topic);
+    
+    if (messages == null) throw new RuntimeException("Queue does not exists!");
+    
+    return new Message(topic, messages.peek());
+  }
+  
+  @RequestMapping(value = "/topics/{topic}", method = RequestMethod.GET)
+  @ResponseBody
+  public List<Message> getAllMessage(@PathVariable("topic") String topic) {
+    ConcurrentLinkedQueue<String> messages = Topics.instance().getMessages(topic);
+    
+    if (messages == null) throw new RuntimeException("Queue does not exists!");
+    
+    List<Message> results = new LinkedList<>();
+    messages.stream().forEach((message) -> {results.add(new Message(topic, message));});
+    return results;
+  }
+  
   
 //  @RequestMapping("/messages")
 //  public Message getMessage() {

@@ -25,6 +25,9 @@ public class MomInitializer {
   }
   
   private MomInitializer() {
+  }
+  
+  public void start() {
     try {
       (consumerGroup = new ConsumerGroup(loadProperties())).start();
     } catch(IOException e) {
@@ -41,5 +44,9 @@ public class MomInitializer {
       properties.load(inputStream);
       return properties;
     }
+  }
+  
+  int ammountOfTopics() {
+    return consumerGroup.ammountOfTopics();
   }
 }

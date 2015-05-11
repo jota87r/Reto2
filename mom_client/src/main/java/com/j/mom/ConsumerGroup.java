@@ -33,7 +33,7 @@ public class ConsumerGroup {
   
   ConsumerGroup(Properties properties) {
     topics = properties.getProperty("topics.all").split(",");
-    ammountOfThreadsPerTopic = (int)properties.get("topics.threads");
+    ammountOfThreadsPerTopic = Integer.parseInt(properties.getProperty("topics.threads"));
     properties.remove("topics.all");
     properties.remove("topics.threads");
     
@@ -49,7 +49,7 @@ public class ConsumerGroup {
     executor = Executors.newFixedThreadPool(ammountOfThreadsPerTopic * topics.length);
     
     messageStreams.entrySet().stream().forEach((messageStream) -> {
-      messageStream.getValue().stream().forEach((stream) -> {executor.submit(new Consumer(stream));} );
+      messageStream.getValue().stream().forEach((stream) -> {executor.submit(new Consumer(stream, messageStream.getKey()));} );
     });
   }
   
@@ -61,5 +61,9 @@ public class ConsumerGroup {
     } catch (InterruptedException e) {
       log.log(Level.SEVERE, e.getMessage());
     }
+  }
+  
+  int ammountOfTopics() {
+    return topics.length;
   }
 }

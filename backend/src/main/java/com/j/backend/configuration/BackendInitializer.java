@@ -5,6 +5,7 @@
  */
 package com.j.backend.configuration;
 
+import com.j.mom.MomInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -27,5 +28,11 @@ public class BackendInitializer implements WebApplicationInitializer {
     ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(context));
     servlet.setLoadOnStartup(1);
     servlet.addMapping("/");
+    
+    startMomClient();
+  }
+  
+  private void startMomClient() {
+    MomInitializer.instance().start();
   }
 }

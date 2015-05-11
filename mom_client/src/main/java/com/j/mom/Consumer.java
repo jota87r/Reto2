@@ -17,17 +17,18 @@ import lombok.extern.java.Log;
 @Log
 public class Consumer implements Runnable {
 
+  private String topic;
   private final KafkaStream stream;
   
-  Consumer(KafkaStream stream) {
+  Consumer(KafkaStream stream, String topic) {
     this.stream = stream;
+    this.topic = topic;
   }
   
   @Override
   public void run() {
     for (ConsumerIterator<byte[], byte[]> it = stream.iterator(); it.hasNext();) {
-      log.log(Level.ALL, new String(it.next().message()));
+      Topics.instance().setMessage(topic, new String(it.next().message()));
     }
   }
-  
 }
