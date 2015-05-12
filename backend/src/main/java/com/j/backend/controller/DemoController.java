@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,7 +50,9 @@ public class DemoController {
   
   @RequestMapping(value = "/topics/{topic}", method = RequestMethod.GET)
   @ResponseBody
-  public List<Message> getAllMessage(@PathVariable("topic") String topic) {
+  public List<Message> getAllMessage(@PathVariable("topic") String topic, HttpServletResponse response) {
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    
     ConcurrentLinkedQueue<String> messages = Topics.instance().getMessages(topic);
     
     if (messages == null) throw new RuntimeException("Queue does not exists!");

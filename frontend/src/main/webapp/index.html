@@ -11,18 +11,58 @@ and open the template in the editor.
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <table style="width: 100%">
+    <table>
       <tr>
         <td>
-          <textarea rows="5" cols="40"></textarea>
+          <table style="width: 100%">
+            <tr>
+              <td>
+                <label>Que quieres decir?</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <textarea rows="5" cols="40"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>A quién lo quieres decir?</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <select id="topics"></select>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button id="test" >Dilo de una vez!</button>
+              </td>
+            </tr>
+          </table>
         </td>
-      </tr>
-      <tr>
         <td>
-          <button id="test" >Enviar mensaje!</button>
+          <table style="width: 100%">
+            <tr>
+              <td>
+                <label>Mira lo que </label> <label id="selectedTopic"></label> <label> te está diciendo!</label>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table id="messages">
+                  <tr>
+                    <td></td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
         </td>
       </tr>
     </table>
+    
     <script src="js/RestClient.js"></script>
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/app.js"></script>
