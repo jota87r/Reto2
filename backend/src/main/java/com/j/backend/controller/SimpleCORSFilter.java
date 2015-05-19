@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.j.backend.components;
+package com.j.backend.controller;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -13,20 +13,22 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author jonatan
  */
+@Component
 public class SimpleCORSFilter implements Filter {
 
   @Override
   public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
     HttpServletResponse response = (HttpServletResponse) res;
     response.setHeader("Access-Control-Allow-Origin", "*");
-    response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-    response.setHeader("Access-Control-Max-Age", "3600");
-    response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+    response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+//    response.setHeader("Access-Control-Max-Age", "3600");
+    response.setHeader("Access-Control-Allow-Headers", "x-requested-with, Content-Type");
     chain.doFilter(req, res);
   }
 

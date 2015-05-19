@@ -5,7 +5,6 @@
  */
 package com.j.mom;
 
-import java.util.logging.Level;
 import kafka.consumer.ConsumerIterator;
 import kafka.consumer.KafkaStream;
 import lombok.extern.java.Log;
@@ -15,12 +14,12 @@ import lombok.extern.java.Log;
  * @author jonatan
  */
 @Log
-public class Consumer implements Runnable {
+public class JConsumer implements Runnable {
 
-  private String topic;
+  private final String topic;
   private final KafkaStream stream;
   
-  Consumer(KafkaStream stream, String topic) {
+  JConsumer(KafkaStream stream, String topic) {
     this.stream = stream;
     this.topic = topic;
   }
