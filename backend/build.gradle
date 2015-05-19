@@ -71,3 +71,9 @@ cargo {
 }
 
 cargoRunLocal.dependsOn war
+
+
+//zookeeper-server-start.bat E:\EAFIT\telematica\kafka_2.10-0.8.2.0\config\zookeeper.properties
+//kafka-server-start.bat E:\EAFIT\telematica\kafka_2.10-0.8.2.0\config\server.properties
+//kafka-console-producer.bat --broker-list localhost:9092 --topic test
+//E:\EAFIT\telematica\kafka_2.10-0.8.2.0\bin\windows

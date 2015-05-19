@@ -29,15 +29,24 @@ public class MomInitializer {
   
   public void start() {
     try {
-      (consumerGroup = new ConsumerGroup(loadProperties())).start();
+      (consumerGroup = new ConsumerGroup(loadConsumerProperties())).start();
+      Topics.instance().setJProducer(new JProducer(loadProducerProperties()));
     } catch(IOException e) {
       throw new RuntimeException(e);
     }
   }
   
-  private Properties loadProperties() throws IOException {
+  private Properties loadConsumerProperties() throws IOException {
+    return loadPropertiesFile("consumer.properties");
+  }
+  
+  private Properties loadProducerProperties() throws IOException {
+    return loadPropertiesFile("producer.properties");
+  }
+  
+  private Properties loadPropertiesFile(String path) throws IOException {
     Properties properties = new Properties();
-    InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("application.properties");
+    InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(path);
     if (inputStream == null)
       throw new FileNotFoundException("There is no configuration file for mom system!");
     else {

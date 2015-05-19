@@ -49,7 +49,7 @@ public class ConsumerGroup {
     executor = Executors.newFixedThreadPool(ammountOfThreadsPerTopic * topics.length);
     
     messageStreams.entrySet().stream().forEach((messageStream) -> {
-      messageStream.getValue().stream().forEach((stream) -> {executor.submit(new Consumer(stream, messageStream.getKey()));} );
+      messageStream.getValue().stream().forEach((stream) -> {executor.submit(new JConsumer(stream, messageStream.getKey()));} );
     });
   }
   

@@ -17,7 +17,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Topics {
   
   private static Topics instance;
-  private Map<String, ConcurrentLinkedQueue<String>> messagesPerTopic;
+  private final Map<String, ConcurrentLinkedQueue<String>> messagesPerTopic;
+  
+  private JProducer producer;
   
   private final Object mutex = new Object();
   
@@ -29,12 +31,22 @@ public class Topics {
     messagesPerTopic = new ConcurrentHashMap<>(MomInitializer.instance().ammountOfTopics());
   }
   
+  void setJProducer(JProducer producer) {
+    this.producer = producer;
+  }
+  
   public Collection<String> getTopics() {
     return messagesPerTopic.keySet();
   }
   
   public ConcurrentLinkedQueue<String> getMessages(String topic) {
     return messagesPerTopic.get(topic);
+  }
+  
+  public void sendMessage(String topic, String message) {
+    if (producer != null) {
+      producer.send(topic, message);
+    }
   }
   
   void setMessage(String topic, String message) {

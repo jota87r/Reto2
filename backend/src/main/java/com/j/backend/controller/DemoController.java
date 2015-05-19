@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DemoController {
 
-  @RequestMapping(value = "/messages", method = RequestMethod.PUT)
-  public void putMessage(@RequestBody Message message) {
-    
-  }
-  
   @RequestMapping(value = "/topics", method = RequestMethod.GET)
   @ResponseBody
-  public Collection<String> getTopics(HttpServletResponse response) {
-    response.setHeader("Access-Control-Allow-Origin", "*");
+  public Collection<String> getTopics() {
     return Topics.instance().getTopics();
   }
   
@@ -50,9 +43,7 @@ public class DemoController {
   
   @RequestMapping(value = "/topics/{topic}", method = RequestMethod.GET)
   @ResponseBody
-  public List<Message> getAllMessage(@PathVariable("topic") String topic, HttpServletResponse response) {
-    response.setHeader("Access-Control-Allow-Origin", "*");
-    
+  public List<Message> getAllMessage(@PathVariable("topic") String topic) {
     ConcurrentLinkedQueue<String> messages = Topics.instance().getMessages(topic);
     
     if (messages == null) throw new RuntimeException("Queue does not exists!");
@@ -62,9 +53,10 @@ public class DemoController {
     return results;
   }
   
+  @RequestMapping(value = "/messages", method = RequestMethod.PUT)
+  @ResponseBody
+  public void putMessage(@RequestBody Message message) {
+    Topics.instance().sendMessage(message.getQueue(), message.getText());
+  }
   
-//  @RequestMapping("/messages")
-//  public Message getMessage() {
-//    return new Message("dummyQ", "dummyMessage");
-//  }
 }

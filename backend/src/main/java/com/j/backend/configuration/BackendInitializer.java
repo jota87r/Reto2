@@ -5,7 +5,7 @@
  */
 package com.j.backend.configuration;
 
-import com.j.backend.components.SimpleCORSFilter;
+import com.j.backend.controller.SimpleCORSFilter;
 import com.j.mom.MomInitializer;
 import java.util.EnumSet;
 import javax.servlet.DispatcherType;
@@ -34,7 +34,7 @@ public class BackendInitializer implements WebApplicationInitializer {
     servlet.addMapping("/");
     
     FilterRegistration.Dynamic filter = container.addFilter("SimpleCORSFilter", new SimpleCORSFilter());
-    filter.addMappingForServletNames(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+    filter.addMappingForServletNames(EnumSet.of(DispatcherType.REQUEST), true, "*");
     
     startMomClient();
   }
