@@ -61,9 +61,10 @@ cargo {
 //        homeDir = file("$projectDir/build/extract/apache-tomcat-7.0.61/apache-tomcat-7.0.61")
         outputFile = file("$rootProject.projectDir/output.log")
         timeout = 60000
+        jvmArgs = "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8000"
 
         installer {
-            installUrl = 'http://mirror.tcpdiag.net/apache/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.zip'
+            installUrl = 'http://apache.osuosl.org/tomcat/tomcat-7/v7.0.62/bin/apache-tomcat-7.0.62.zip'
             downloadDir = file("$rootProject.projectDir/build/download")
             extractDir = file("$rootProject.projectDir/build/extract")
         }

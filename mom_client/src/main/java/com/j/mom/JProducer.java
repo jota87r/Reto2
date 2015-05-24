@@ -23,7 +23,8 @@ public class JProducer implements AutoCloseable {
   }
   
   public void send(String topic, String message) {
-    producer.send(new KeyedMessage<>(topic, topic, message));
+//    producer.send(new KeyedMessage<>(topic, topic, message));
+    producer.send(new KeyedMessage(topic, message));
   }
 
   @Override

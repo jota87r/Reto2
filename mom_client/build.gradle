@@ -12,14 +12,14 @@
 apply plugin: 'java'
 
 if (!hasProperty('mainClass')) {
-    ext.mainClass = ''
+  ext.mainClass = 'com.j.mom.MomInitializer'
 }
 
 dependencies {
-    def lombokVersion = '+'
-    def kafkaVersion = '0.8.2.0'
+  def lombokVersion = '+'
+  def kafkaVersion = '0.8.2.0'
 	
-    compile "org.projectlombok:lombok:$lombokVersion"
-    compile "org.apache.kafka:kafka-clients:$kafkaVersion"
-    compile "org.apache.kafka:kafka_2.9.2:$kafkaVersion"
+  compile "org.projectlombok:lombok:$lombokVersion"
+  compile "org.apache.kafka:kafka-clients:$kafkaVersion"
+  compile "org.apache.kafka:kafka_2.9.2:$kafkaVersion"
 }

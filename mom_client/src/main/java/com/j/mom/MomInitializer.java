@@ -8,12 +8,15 @@ package com.j.mom;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.Properties;
+import lombok.extern.java.Log;
 
 /**
  *
  * @author jonatan
  */
+@Log
 public class MomInitializer {
   
   private static MomInitializer instance;
@@ -57,5 +60,12 @@ public class MomInitializer {
   
   int ammountOfTopics() {
     return consumerGroup.ammountOfTopics();
+  }
+  
+  public static void main(String... args) {
+    log.info("before");
+    MomInitializer.instance().start();
+    Topics.instance().sendMessage("test", new Date().toString());
+    log.info("after");
   }
 }
