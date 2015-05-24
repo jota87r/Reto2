@@ -27,16 +27,12 @@ public class Topics {
     return instance == null ? instance = new Topics() : instance;
   }
   
-  private Topics() {
-    messagesPerTopic = new ConcurrentHashMap<>(MomInitializer.instance().ammountOfTopics());
-  }
-  
-  void setJProducer(JProducer producer) {
-    this.producer = producer;
-  }
-  
   public Collection<String> getTopics() {
     return messagesPerTopic.keySet();
+  }
+  
+  public void createTopic() {
+    
   }
   
   public ConcurrentLinkedQueue<String> getMessages(String topic) {
@@ -47,6 +43,14 @@ public class Topics {
     if (producer != null) {
       producer.send(topic, message);
     }
+  }
+  
+  private Topics() {
+    messagesPerTopic = new ConcurrentHashMap<>(MomInitializer.instance().ammountOfTopics());
+  }
+  
+  void setJProducer(JProducer producer) {
+    this.producer = producer;
   }
   
   void setMessage(String topic, String message) {

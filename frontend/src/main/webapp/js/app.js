@@ -49,13 +49,9 @@ App.sendMessage = function() {
   $.ajax({
     url: "http://localhost:8080/backend/messages",
     method: 'PUT',
-//    data: '{queue: ' + '"' + App.topicSelected + '"' + ', text: ' + '"' + App.message.value + '"' + '}',
-    dataType: 'json',
-//    data: {queue: App.topicSelected, text: App.message.value}
-    data: {queue: "App.topicSelected", text: "App.message.value"},
-    contentType: 'application/json',
-    processData: false
-  }).done(function() {console.log("asdf");});
+    data: '{"queue": ' + '"' + App.topicSelected + '"' + ', "text": ' + '"' + App.message.value + '"}',
+    contentType: 'application/json'
+  }).done(function() { App.loadMessages(); });
 }
 
 App.init = function() {

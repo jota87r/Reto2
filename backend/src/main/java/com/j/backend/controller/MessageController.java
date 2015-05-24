@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author jonatan
  */
 @RestController
-public class DemoController {
+public class MessageController {
 
   @RequestMapping(value = "/topics", method = RequestMethod.GET)
   @ResponseBody
@@ -43,7 +43,7 @@ public class DemoController {
   
   @RequestMapping(value = "/topics/{topic}", method = RequestMethod.GET)
   @ResponseBody
-  public List<Message> getAllMessage(@PathVariable("topic") String topic) {
+  public List<Message> getAllMessages(@PathVariable("topic") String topic) {
     ConcurrentLinkedQueue<String> messages = Topics.instance().getMessages(topic);
     
     if (messages == null) throw new RuntimeException("Queue does not exists!");
@@ -54,7 +54,6 @@ public class DemoController {
   }
   
   @RequestMapping(value = "/messages", method = RequestMethod.PUT)
-  @ResponseBody
   public void putMessage(@RequestBody Message message) {
     Topics.instance().sendMessage(message.getQueue(), message.getText());
   }
