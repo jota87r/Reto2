@@ -33,7 +33,7 @@ public class MomInitializer {
   public void start() {
     try {
       (consumerGroup = new ConsumerGroup(loadConsumerProperties())).start();
-      Topics.instance().setJProducer(new JProducer(loadProducerProperties()));
+      Mom.instance().setJProducer(new JProducer(loadProducerProperties()));
     } catch(IOException e) {
       throw new RuntimeException(e);
     }
@@ -58,14 +58,10 @@ public class MomInitializer {
     }
   }
   
-  int ammountOfTopics() {
-    return consumerGroup.ammountOfTopics();
-  }
-  
   public static void main(String... args) {
     log.info("before");
     MomInitializer.instance().start();
-    Topics.instance().sendMessage("test", new Date().toString());
+    Mom.instance().sendMessage("test", new Date().toString());
     log.info("after");
   }
 }

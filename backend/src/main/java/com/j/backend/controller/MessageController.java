@@ -6,7 +6,7 @@
 package com.j.backend.controller;
 
 import com.j.backend.domain.Message;
-import com.j.mom.Topics;
+import com.j.mom.Mom;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,13 +28,13 @@ public class MessageController {
   @RequestMapping(value = "/topics", method = RequestMethod.GET)
   @ResponseBody
   public Collection<String> getTopics() {
-    return Topics.instance().getTopics();
+    return Mom.instance().getTopics();
   }
   
   @RequestMapping(value = "/topics/{topic}/messages/head", method = RequestMethod.GET)
   @ResponseBody
   public Message getMessage(@PathVariable("topic") String topic) {
-    ConcurrentLinkedQueue<String> messages = Topics.instance().getMessages(topic);
+    ConcurrentLinkedQueue<String> messages = Mom.instance().getMessages(topic);
     
     if (messages == null) throw new RuntimeException("Queue does not exists!");
     
@@ -44,7 +44,7 @@ public class MessageController {
   @RequestMapping(value = "/topics/{topic}", method = RequestMethod.GET)
   @ResponseBody
   public List<Message> getAllMessages(@PathVariable("topic") String topic) {
-    ConcurrentLinkedQueue<String> messages = Topics.instance().getMessages(topic);
+    ConcurrentLinkedQueue<String> messages = Mom.instance().getMessages(topic);
     
     if (messages == null) throw new RuntimeException("Queue does not exists!");
     
@@ -55,7 +55,7 @@ public class MessageController {
   
   @RequestMapping(value = "/messages", method = RequestMethod.PUT)
   public void putMessage(@RequestBody Message message) {
-    Topics.instance().sendMessage(message.getQueue(), message.getText());
+    Mom.instance().sendMessage(message.getQueue(), message.getText());
   }
   
 }

@@ -27,8 +27,9 @@ App.loadMessages = function() {
   $.ajax({
     url: "http://localhost:8080/backend/topics/" + App.topicSelected
   }).then(function (data) {
+    var messages = document.getElementById('messages');
+    messages.innerHTML = '';
     data.forEach(function(val) {
-      var messages = document.getElementById('messages');
       var message = document.createElement('label');
       message.innerHTML = val.text;
       var tr = document.createElement('tr');
@@ -43,6 +44,7 @@ App.loadMessages = function() {
 App.updateMessageList = function() {
   App.topicSelected = App.topicSelect.value;
   document.getElementById('selectedTopic').innerHTML = App.topicSelected;
+  App.loadMessages();
 };
 
 App.sendMessage = function() {

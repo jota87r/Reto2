@@ -6,6 +6,7 @@
 package com.j.mom;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -14,25 +15,21 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *
  * @author jonatan
  */
-public class Topics {
+public class Mom {
   
-  private static Topics instance;
+  private static Mom instance;
   private final Map<String, ConcurrentLinkedQueue<String>> messagesPerTopic;
   
   private JProducer producer;
   
   private final Object mutex = new Object();
   
-  public final static synchronized Topics instance() {
-    return instance == null ? instance = new Topics() : instance;
+  public final static synchronized Mom instance() {
+    return instance == null ? instance = new Mom() : instance;
   }
   
   public Collection<String> getTopics() {
-    return messagesPerTopic.keySet();
-  }
-  
-  public void createTopic() {
-    
+    return JTopic.instance().topics();
   }
   
   public ConcurrentLinkedQueue<String> getMessages(String topic) {
@@ -45,8 +42,14 @@ public class Topics {
     }
   }
   
-  private Topics() {
-    messagesPerTopic = new ConcurrentHashMap<>(MomInitializer.instance().ammountOfTopics());
+  private Mom() {
+    synchronized (mutex) {
+      List<String> topics = JTopic.instance().topics();
+      messagesPerTopic = new ConcurrentHashMap<>(topics.size());
+      topics.stream().forEach((topic) -> {
+        messagesPerTopic.put(topic, new ConcurrentLinkedQueue<>());
+      });
+    }
   }
   
   void setJProducer(JProducer producer) {

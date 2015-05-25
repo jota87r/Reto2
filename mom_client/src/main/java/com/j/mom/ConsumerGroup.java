@@ -28,25 +28,26 @@ public class ConsumerGroup {
   private final ConsumerConnector connector;
   private ExecutorService executor;
   
-  private final String[] topics;
   private final int ammountOfThreadsPerTopic;
   
   ConsumerGroup(Properties properties) {
-    topics = properties.getProperty("topics.all").split(",");
     ammountOfThreadsPerTopic = Integer.parseInt(properties.getProperty("topics.threads"));
-    properties.remove("topics.all");
     properties.remove("topics.threads");
     
     connector = kafka.consumer.Consumer.createJavaConsumerConnector(new ConsumerConfig(properties));
   }
   
   void start() {
-    Map<String, Integer> threadsPerTopic = new HashMap<>(topics.length);
+    List<String> topics = JTopic.instance().topics();
     
-    for (String topic : topics) threadsPerTopic.put(topic, ammountOfThreadsPerTopic);
+    Map<String, Integer> threadsPerTopic = new HashMap<>(topics.size());
+    
+    topics.stream().forEach((topic) -> {
+      threadsPerTopic.put(topic, ammountOfThreadsPerTopic);
+    });
     
     Map<String, List<KafkaStream<byte[], byte[]>>> messageStreams = connector.createMessageStreams(threadsPerTopic);
-    executor = Executors.newFixedThreadPool(ammountOfThreadsPerTopic * topics.length);
+    executor = Executors.newFixedThreadPool(ammountOfThreadsPerTopic * topics.size());
     
     messageStreams.entrySet().stream().forEach((messageStream) -> {
       messageStream.getValue().stream().forEach((stream) -> {executor.submit(new JConsumer(stream, messageStream.getKey()));} );
@@ -61,9 +62,5 @@ public class ConsumerGroup {
     } catch (InterruptedException e) {
       log.log(Level.SEVERE, e.getMessage());
     }
-  }
-  
-  int ammountOfTopics() {
-    return topics.length;
   }
 }

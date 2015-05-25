@@ -27,7 +27,7 @@ public class JConsumer implements Runnable {
   @Override
   public void run() {
     for (ConsumerIterator<byte[], byte[]> it = stream.iterator(); it.hasNext();) {
-      Topics.instance().setMessage(topic, new String(it.next().message()));
+      Mom.instance().setMessage(topic, new String(it.next().message()));
     }
   }
 }
